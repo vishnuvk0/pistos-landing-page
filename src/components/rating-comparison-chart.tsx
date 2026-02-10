@@ -23,26 +23,79 @@ const MONTHS = [
   "Feb '26",
 ];
 
-// Pistos: monthly data — lower value = better rating (0 = Aaa, 4 = Ba)
-// Dips in April, recovers in May, trends upward over time
-const PISTOS_DATA = [
-  1.8, 1.7, 2.5, 1.8, 1.6, 1.4, 1.5, 1.7, 1.4, 1.2, 1.1, 1.0, 0.9,
+// Pistos: dense data with market-like shakiness
+// Format: [fractional month index, rating value]
+// Lower value = better rating (0 = Aaa, 4 = Ba)
+const PISTOS_DATA: [number, number][] = [
+  [0, 1.80],
+  [0.25, 1.86],
+  [0.5, 1.78],
+  [0.75, 1.83],
+  [1, 1.72],
+  [1.2, 1.76],
+  [1.45, 1.68],
+  [1.7, 1.74],
+  [1.9, 1.88],
+  [2, 2.05],
+  [2.15, 2.22],
+  [2.35, 2.42],
+  [2.5, 2.50],
+  [2.7, 2.38],
+  [2.85, 2.18],
+  [3, 1.82],
+  [3.2, 1.87],
+  [3.45, 1.76],
+  [3.7, 1.70],
+  [3.9, 1.66],
+  [4, 1.62],
+  [4.2, 1.67],
+  [4.5, 1.57],
+  [4.75, 1.52],
+  [5, 1.42],
+  [5.2, 1.47],
+  [5.45, 1.43],
+  [5.7, 1.49],
+  [6, 1.52],
+  [6.2, 1.56],
+  [6.5, 1.60],
+  [6.75, 1.64],
+  [7, 1.68],
+  [7.15, 1.63],
+  [7.4, 1.56],
+  [7.65, 1.50],
+  [7.85, 1.45],
+  [8, 1.42],
+  [8.2, 1.46],
+  [8.45, 1.39],
+  [8.7, 1.34],
+  [9, 1.22],
+  [9.2, 1.26],
+  [9.45, 1.19],
+  [9.7, 1.16],
+  [10, 1.12],
+  [10.25, 1.16],
+  [10.5, 1.10],
+  [10.75, 1.06],
+  [11, 1.02],
+  [11.2, 1.06],
+  [11.5, 0.98],
+  [11.75, 0.94],
+  [12, 0.92],
 ];
 
 // Moody's: quarterly step data — [monthIndex, ratingValue]
-// Updates every 3 months, approximates Pistos but lags behind
 const MOODYS_STEPS: [number, number][] = [
-  [0, 1.8], // Feb 2025 — initial, same as Pistos
-  [3, 2.0], // May 2025 — catches April dip late, overreacts
-  [6, 1.5], // Aug 2025 — catches up
-  [9, 1.3], // Nov 2025 — closer but still behind
+  [0, 1.8],
+  [3, 2.0],
+  [6, 1.5],
+  [9, 1.3],
 ];
-const MOODYS_LAST_MONTH = 10; // Dec 2025 — last solid data point
+const MOODYS_LAST_MONTH = 10;
 
-// Chart layout
+// Chart layout — extra padding for larger labels
 const W = 720;
-const H = 320;
-const PAD = { top: 24, right: 32, bottom: 44, left: 52 };
+const H = 340;
+const PAD = { top: 28, right: 32, bottom: 56, left: 72 };
 const PLOT_W = W - PAD.left - PAD.right;
 const PLOT_H = H - PAD.top - PAD.bottom;
 
@@ -54,10 +107,10 @@ function yPos(rating: number) {
   return PAD.top + (rating / (RATINGS.length - 1)) * PLOT_H;
 }
 
-/** Smooth Pistos path with monthly data points */
+/** Smooth Pistos path from dense data */
 function pistosPath(): string {
   return PISTOS_DATA.map(
-    (val, i) => `${i === 0 ? "M" : "L"}${xPos(i)},${yPos(val)}`
+    ([mi, val], i) => `${i === 0 ? "M" : "L"}${xPos(mi)},${yPos(val)}`
   ).join(" ");
 }
 
@@ -69,12 +122,10 @@ function moodysSteppedPath(): string {
     if (i === 0) {
       parts.push(`M${xPos(mi)},${yPos(val)}`);
     } else {
-      // Horizontal to current month at old rating, then vertical to new rating
       parts.push(`L${xPos(mi)},${yPos(MOODYS_STEPS[i - 1][1])}`);
       parts.push(`L${xPos(mi)},${yPos(val)}`);
     }
   }
-  // Extend flat to Dec 2025
   const lastVal = MOODYS_STEPS[MOODYS_STEPS.length - 1][1];
   parts.push(`L${xPos(MOODYS_LAST_MONTH)},${yPos(lastVal)}`);
   return parts.join(" ");
@@ -90,25 +141,20 @@ export function RatingComparisonChart() {
   const containerRef = useRef<HTMLDivElement>(null);
   const pistosRef = useRef<SVGPathElement>(null);
   const moodysRef = useRef<SVGPathElement>(null);
-  const moodysDottedRef = useRef<SVGPathElement>(null);
 
   const isInView = useInView(containerRef, { once: true, margin: "-60px" });
 
-  const [lengths, setLengths] = useState({
-    pistos: 0,
-    moodys: 0,
-    moodysDotted: 0,
-  });
+  const [lengths, setLengths] = useState({ pistos: 0, moodys: 0 });
 
   useEffect(() => {
     const p = pistosRef.current?.getTotalLength() ?? 0;
     const m = moodysRef.current?.getTotalLength() ?? 0;
-    const md = moodysDottedRef.current?.getTotalLength() ?? 0;
-    setLengths({ pistos: p, moodys: m, moodysDotted: md });
+    setLengths({ pistos: p, moodys: m });
   }, []);
 
-  const lastX = xPos(PISTOS_DATA.length - 1);
-  const lastY = yPos(PISTOS_DATA[PISTOS_DATA.length - 1]);
+  const lastPoint = PISTOS_DATA[PISTOS_DATA.length - 1];
+  const lastX = xPos(lastPoint[0]);
+  const lastY = yPos(lastPoint[1]);
 
   return (
     <div className="space-y-4" ref={containerRef}>
@@ -139,12 +185,12 @@ export function RatingComparisonChart() {
           {RATINGS.map((label, i) => (
             <text
               key={`y-${label}`}
-              x={PAD.left - 10}
+              x={PAD.left - 12}
               y={yPos(i)}
               textAnchor="end"
               dominantBaseline="middle"
-              fill="#555"
-              fontSize={11}
+              fill="#666"
+              fontSize={20}
               fontFamily="ui-monospace, monospace"
             >
               {label}
@@ -156,10 +202,10 @@ export function RatingComparisonChart() {
             <text
               key={`x-${i}`}
               x={xPos(i)}
-              y={H - 8}
+              y={H - 10}
               textAnchor="middle"
-              fill="#555"
-              fontSize={10}
+              fill="#666"
+              fontSize={18}
               fontFamily="ui-monospace, monospace"
             >
               {label}
@@ -171,8 +217,8 @@ export function RatingComparisonChart() {
             ref={moodysRef}
             d={moodysSteppedPath()}
             fill="none"
-            stroke="rgba(255,255,255,0.25)"
-            strokeWidth={2}
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth={3.5}
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeDasharray={lengths.moodys || undefined}
@@ -184,38 +230,17 @@ export function RatingComparisonChart() {
             }}
           />
 
-          {/* Moody's quarterly dots */}
-          {MOODYS_STEPS.map(([mi, val], i) => (
-            <motion.circle
-              key={`m-dot-${i}`}
-              cx={xPos(mi)}
-              cy={yPos(val)}
-              r={3.5}
-              fill="rgba(255,255,255,0.25)"
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.3, delay: 0.6 + i * 0.5 }}
-            />
-          ))}
-
           {/* ── Moody's dotted extension (stale) ── */}
-          <path
-            ref={moodysDottedRef}
+          <motion.path
             d={moodysDottedPath()}
             fill="none"
-            stroke="rgba(255,255,255,0.15)"
-            strokeWidth={2}
-            strokeDasharray={
-              lengths.moodysDotted
-                ? `6 5`
-                : undefined
-            }
-            strokeDashoffset={isInView ? 0 : lengths.moodysDotted + 100}
-            style={{
-              transition: lengths.moodysDotted
-                ? "stroke-dashoffset 0.8s ease-out 3s"
-                : "none",
-            }}
+            stroke="rgba(255,255,255,0.18)"
+            strokeWidth={3.5}
+            strokeDasharray="8 6"
+            strokeLinecap="round"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.6, delay: 3 }}
           />
 
           {/* ── Pistos line (red, animated draw) ── */}
@@ -224,7 +249,7 @@ export function RatingComparisonChart() {
             d={pistosPath()}
             fill="none"
             stroke="#ef4444"
-            strokeWidth={2.5}
+            strokeWidth={3.5}
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeDasharray={lengths.pistos || undefined}
@@ -236,20 +261,6 @@ export function RatingComparisonChart() {
               filter: "drop-shadow(0 0 6px rgba(239, 68, 68, 0.35))",
             }}
           />
-
-          {/* Pistos monthly dots */}
-          {PISTOS_DATA.map((val, i) => (
-            <motion.circle
-              key={`p-dot-${i}`}
-              cx={xPos(i)}
-              cy={yPos(val)}
-              r={3}
-              fill="#ef4444"
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.2, delay: 0.2 + i * 0.23 }}
-            />
-          ))}
 
           {/* ── Blinking "live" indicator at Pistos endpoint ── */}
           {isInView && (
@@ -268,7 +279,7 @@ export function RatingComparisonChart() {
               >
                 <animate
                   attributeName="r"
-                  values="5;11;5"
+                  values="5;12;5"
                   dur="2s"
                   repeatCount="indefinite"
                 />
@@ -284,7 +295,7 @@ export function RatingComparisonChart() {
               <motion.circle
                 cx={lastX}
                 cy={lastY}
-                r={4.5}
+                r={5}
                 fill="#ef4444"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
