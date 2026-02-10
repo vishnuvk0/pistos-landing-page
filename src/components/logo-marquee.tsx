@@ -1,13 +1,18 @@
 "use client";
 
+import { motion } from "motion/react";
 import Marquee from "react-fast-marquee";
 import { ALUMNI_LOGOS } from "@/lib/constants";
 
 export function LogoMarquee() {
   return (
-    <section
+    <motion.section
       className="marquee-container py-16"
       aria-label="Companies our team members previously worked at"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <div className="mx-auto max-w-5xl px-6 md:px-8">
         <p className="mb-8 text-center text-sm text-text-tertiary uppercase tracking-widest">
@@ -32,6 +37,6 @@ export function LogoMarquee() {
           </div>
         ))}
       </Marquee>
-    </section>
+    </motion.section>
   );
 }

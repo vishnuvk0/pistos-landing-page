@@ -12,7 +12,7 @@ describe("Solution", () => {
   it("displays the section heading", () => {
     render(<Solution />);
     expect(
-      screen.getByRole("heading", { level: 2, name: /new kind of rating agency/i })
+      screen.getByRole("heading", { level: 2, name: /speed of ai/i })
     ).toBeInTheDocument();
   });
 

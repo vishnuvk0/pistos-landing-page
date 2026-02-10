@@ -1,10 +1,10 @@
 export const COMPANY = {
   name: "Pistos",
-  tagline: "AI-Powered Credit Ratings. 100x Faster.",
+  tagline: "Credit Ratings at the Speed of AI.",
   description:
-    "Pistos is building the first full-stack AI credit rating agency for municipal governments and private credit.",
+    "The first agent-native credit rating agency. Ratings in minutes, not months — for municipal governments and private credit.",
   mission:
-    "We believe credit markets deserve better. Legacy rating agencies rely on decades-old methodologies, leaving vast swaths of the market unrated and underserved. Pistos combines frontier AI with deep credit expertise to deliver faster, more accurate, and more transparent ratings — starting with the $4T municipal bond market.",
+    "Three companies control 98.8% of all credit ratings globally — using manual, biased processes that helped cause the 2008 financial crisis. Nothing has changed. A third of all municipal bond offerings go unrated because issuers can't afford the fees, and the explosive growth of the $3.5 trillion private credit market has created vast new demand that incumbents are poorly positioned to meet. We're building the rating agency that should already exist: full-stack, agent-native, and always online.",
   contactEmail: "info@pistos.ai",
   social: {
     linkedin: "https://linkedin.com/company/pistos-ai",
@@ -15,41 +15,41 @@ export const COMPANY = {
 export const STATS = [
   {
     value: "98.8%",
-    label: "of muni bonds are unrated or stale-rated",
+    label: "controlled by three companies",
     description:
-      "The vast majority of the $4T municipal bond market lacks current, reliable credit analysis.",
+      "Moody's, S&P, and Fitch operate as an oligopoly — slow to act, structurally biased, and resistant to change.",
   },
   {
     value: "1/3",
-    label: "of issuers have never been rated",
+    label: "of muni bond offerings go unrated",
     description:
-      "Tens of thousands of municipalities have zero coverage from legacy agencies.",
+      "Issuers can't afford exorbitant fees, leaving tens of thousands of municipalities with zero coverage.",
   },
   {
     value: "$3.5T",
-    label: "market underserved by legacy agencies",
+    label: "private credit market underserved",
     description:
-      "Trillions in outstanding municipal debt lack the analytical coverage investors need.",
+      "The fastest-growing asset class has no universally adopted, transparent rating standard.",
   },
 ] as const;
 
 export const FEATURES = [
   {
-    title: "AI-Native",
+    title: "Agent-Native Architecture",
     description:
-      "Purpose-built AI models trained on decades of municipal credit data, financial statements, and macroeconomic indicators. Our models analyze in minutes what takes legacy agencies months.",
+      "Our AI agents connect directly with customers' finance stacks via A2A protocols. Their agents send financials, our agents handle NDAs, legal, regulation, and return a rating — in minutes, not months.",
     icon: "brain",
   },
   {
-    title: "Full-Stack",
+    title: "Always-Online Models",
     description:
-      "End-to-end coverage from data ingestion and normalization through credit analysis, rating assignment, and ongoing surveillance. One platform, complete coverage.",
+      "Constantly processing geopolitical events, interest rates, and macro changes in real time. When conditions shift, our models react instantly — not weeks later like incumbents.",
     icon: "layers",
   },
   {
     title: "Municipal & Private Credit",
     description:
-      "Starting with the $4T municipal bond market — the largest underserved segment — then expanding into private credit, infrastructure finance, and beyond.",
+      "Starting with the $4T municipal bond market and the $3.5T private credit market — the largest underserved segments where borrowers are unrated or lack transparent standards.",
     icon: "building",
   },
 ] as const;
@@ -72,14 +72,14 @@ export const ALUMNI_LOGOS = [
 
 export const SECTIONS = {
   problem: {
-    heading: "The Credit Rating Gap",
+    heading: "A Broken Oligopoly",
     description:
-      "The municipal bond market is massive — yet chronically underserved by legacy rating agencies that lack the technology and incentives to provide broad coverage.",
+      "Three agencies control nearly all credit ratings globally. Their manual, biased processes helped cause the 2008 crisis — and nothing has changed since.",
   },
   solution: {
-    heading: "A New Kind of Rating Agency",
+    heading: "Ratings Should Move at the Speed of AI",
     description:
-      "Pistos combines frontier AI with deep credit expertise to deliver faster, more accurate, and more transparent credit analysis.",
+      "Companies are automating their finance stacks with AI agents. Their credit ratings should move at the same speed. Pistos makes that possible.",
   },
   about: {
     heading: `About ${COMPANY.name}`,

@@ -1,8 +1,18 @@
+"use client";
+
+import { motion } from "motion/react";
 import { COMPANY } from "@/lib/constants";
 
 export function Footer() {
   return (
-    <footer id="contact" className="border-t border-border py-16">
+    <motion.footer
+      id="contact"
+      className="border-t border-border py-16"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div className="mx-auto max-w-5xl px-6 md:px-8">
         <div className="flex flex-col items-center gap-8 text-center md:flex-row md:justify-between md:text-left">
           <div>
@@ -54,6 +64,6 @@ export function Footer() {
           </p>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }
