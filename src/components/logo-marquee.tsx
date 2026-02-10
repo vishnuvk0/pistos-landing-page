@@ -15,22 +15,24 @@ export function LogoMarquee() {
         </p>
       </div>
       <Marquee speed={40} gradient={false} pauseOnHover={true}>
-        {ALUMNI_LOGOS.map((logo) => (
-          <div
-            key={logo.name}
-            className="mx-8 flex h-12 items-center justify-center"
-          >
-            <img
-              src={logo.logoPath}
-              alt={logo.name}
-              style={{
-                height: logo.height,
-                ...("offsetY" in logo && { transform: `translateY(${logo.offsetY}px)` }),
-              }}
-              className={`${"filterClass" in logo ? logo.filterClass : "logo-white"} w-auto opacity-60 transition-opacity hover:opacity-100`}
-            />
-          </div>
-        ))}
+        {Array.from({ length: 3 }, (_, i) =>
+          ALUMNI_LOGOS.map((logo) => (
+            <div
+              key={`${logo.name}-${i}`}
+              className="mx-8 flex h-12 items-center justify-center"
+            >
+              <img
+                src={logo.logoPath}
+                alt={logo.name}
+                style={{
+                  height: logo.height,
+                  ...("offsetY" in logo && { transform: `translateY(${logo.offsetY}px)` }),
+                }}
+                className={`${"filterClass" in logo ? logo.filterClass : "logo-white"} w-auto opacity-60 transition-opacity hover:opacity-100`}
+              />
+            </div>
+          ))
+        )}
       </Marquee>
     </section>
   );
