@@ -11,7 +11,7 @@ export function LogoMarquee() {
     >
       <div className="mx-auto max-w-5xl px-6 md:px-8">
         <p className="mb-8 text-center text-sm text-text-tertiary uppercase tracking-widest">
-          Made by alumni from
+          Built by alumni from
         </p>
       </div>
       <Marquee speed={40} gradient={false} pauseOnHover={true}>
@@ -20,7 +20,8 @@ export function LogoMarquee() {
             key={logo.name}
             src={logo.logoPath}
             alt={logo.name}
-            className="logo-white mx-12 h-8 w-auto opacity-60 transition-opacity hover:opacity-100"
+            style={{ height: logo.height }}
+            className="logo-white mx-6 w-auto opacity-60 transition-opacity hover:opacity-100"
           />
         ))}
       </Marquee>

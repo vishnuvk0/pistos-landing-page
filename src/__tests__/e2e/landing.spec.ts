@@ -64,25 +64,20 @@ test.describe("Landing page", () => {
       'section[aria-label="Companies our team members previously worked at"]'
     );
     await expect(marquee).toBeAttached();
-    await expect(page.getByText("Made by alumni from")).toBeVisible();
+    await expect(page.getByText("Built by alumni from")).toBeVisible();
 
     const logos = marquee.locator("img");
     const count = await logos.count();
     expect(count).toBeGreaterThanOrEqual(7);
   });
 
-  test("custom fonts are loaded", async ({ page }) => {
+  test("font stack is configured correctly", async ({ page }) => {
     await page.goto("/");
     await page.waitForLoadState("networkidle");
 
-    const spaceGrotesk = await page.evaluate(() =>
-      document.fonts.check('16px "Space Grotesk"')
+    const bodyFontFamily = await page.evaluate(() =>
+      getComputedStyle(document.body).fontFamily
     );
-    expect(spaceGrotesk).toBe(true);
-
-    const dmSans = await page.evaluate(() =>
-      document.fonts.check('16px "DM Sans"')
-    );
-    expect(dmSans).toBe(true);
+    expect(bodyFontFamily).toContain("Helvetica");
   });
 });
