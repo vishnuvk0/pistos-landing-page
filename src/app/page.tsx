@@ -8,8 +8,8 @@ export default function Home() {
     <main>
       <Hero />
       <LogoMarquee />
-      <Problem />
       <Solution />
+      <Problem />
     </main>
   );
 }

@@ -7,21 +7,7 @@ import { useRef, useEffect, useState } from "react";
 const RATINGS = ["Aaa", "Aa", "A", "Baa", "Ba"];
 
 // X-axis months: Feb 2025 → Feb 2026
-const MONTHS = [
-  "Feb '25",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-  "Jan '26",
-  "Feb '26",
-];
+const MONTHS = ["F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D", "J", "F"];
 
 // Pistos: dense data with market-like shakiness
 // Format: [fractional month index, rating value]
