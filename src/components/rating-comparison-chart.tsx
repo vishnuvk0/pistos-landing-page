@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useInView } from "motion/react";
+import { useRef, useEffect, useState } from "react";
 
 // Moody's rating scale for Y-axis (top = best)
 const RATINGS = ["Aaa", "Aa", "A", "Baa", "Ba"];
@@ -45,18 +46,18 @@ const PAD = { top: 24, right: 32, bottom: 44, left: 52 };
 const PLOT_W = W - PAD.left - PAD.right;
 const PLOT_H = H - PAD.top - PAD.bottom;
 
-function x(monthIndex: number) {
+function xPos(monthIndex: number) {
   return PAD.left + (monthIndex / (MONTHS.length - 1)) * PLOT_W;
 }
 
-function y(rating: number) {
+function yPos(rating: number) {
   return PAD.top + (rating / (RATINGS.length - 1)) * PLOT_H;
 }
 
 /** Smooth Pistos path with monthly data points */
 function pistosPath(): string {
   return PISTOS_DATA.map(
-    (val, i) => `${i === 0 ? "M" : "L"} ${x(i)} ${y(val)}`
+    (val, i) => `${i === 0 ? "M" : "L"}${xPos(i)},${yPos(val)}`
   ).join(" ");
 }
 
@@ -66,31 +67,51 @@ function moodysSteppedPath(): string {
   for (let i = 0; i < MOODYS_STEPS.length; i++) {
     const [mi, val] = MOODYS_STEPS[i];
     if (i === 0) {
-      parts.push(`M ${x(mi)} ${y(val)}`);
+      parts.push(`M${xPos(mi)},${yPos(val)}`);
     } else {
-      // Horizontal to current month, then vertical to new rating
-      parts.push(`L ${x(mi)} ${y(MOODYS_STEPS[i - 1][1])}`);
-      parts.push(`L ${x(mi)} ${y(val)}`);
+      // Horizontal to current month at old rating, then vertical to new rating
+      parts.push(`L${xPos(mi)},${yPos(MOODYS_STEPS[i - 1][1])}`);
+      parts.push(`L${xPos(mi)},${yPos(val)}`);
     }
   }
   // Extend flat to Dec 2025
   const lastVal = MOODYS_STEPS[MOODYS_STEPS.length - 1][1];
-  parts.push(`L ${x(MOODYS_LAST_MONTH)} ${y(lastVal)}`);
+  parts.push(`L${xPos(MOODYS_LAST_MONTH)},${yPos(lastVal)}`);
   return parts.join(" ");
 }
 
 /** Dotted extension from Dec 2025 → Feb 2026 (stale) */
 function moodysDottedPath(): string {
   const lastVal = MOODYS_STEPS[MOODYS_STEPS.length - 1][1];
-  return `M ${x(MOODYS_LAST_MONTH)} ${y(lastVal)} L ${x(MONTHS.length - 1)} ${y(lastVal)}`;
+  return `M${xPos(MOODYS_LAST_MONTH)},${yPos(lastVal)} L${xPos(MONTHS.length - 1)},${yPos(lastVal)}`;
 }
 
 export function RatingComparisonChart() {
-  const lastX = x(PISTOS_DATA.length - 1);
-  const lastY = y(PISTOS_DATA[PISTOS_DATA.length - 1]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pistosRef = useRef<SVGPathElement>(null);
+  const moodysRef = useRef<SVGPathElement>(null);
+  const moodysDottedRef = useRef<SVGPathElement>(null);
+
+  const isInView = useInView(containerRef, { once: true, margin: "-60px" });
+
+  const [lengths, setLengths] = useState({
+    pistos: 0,
+    moodys: 0,
+    moodysDotted: 0,
+  });
+
+  useEffect(() => {
+    const p = pistosRef.current?.getTotalLength() ?? 0;
+    const m = moodysRef.current?.getTotalLength() ?? 0;
+    const md = moodysDottedRef.current?.getTotalLength() ?? 0;
+    setLengths({ pistos: p, moodys: m, moodysDotted: md });
+  }, []);
+
+  const lastX = xPos(PISTOS_DATA.length - 1);
+  const lastY = yPos(PISTOS_DATA[PISTOS_DATA.length - 1]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" ref={containerRef}>
       <h3 className="text-xs font-medium uppercase tracking-widest text-text-tertiary">
         Rating Accuracy
       </h3>
@@ -106,9 +127,9 @@ export function RatingComparisonChart() {
             <line
               key={`grid-h-${i}`}
               x1={PAD.left}
-              y1={y(i)}
+              y1={yPos(i)}
               x2={W - PAD.right}
-              y2={y(i)}
+              y2={yPos(i)}
               stroke="rgba(255,255,255,0.06)"
               strokeWidth={1}
             />
@@ -119,7 +140,7 @@ export function RatingComparisonChart() {
             <text
               key={`y-${label}`}
               x={PAD.left - 10}
-              y={y(i)}
+              y={yPos(i)}
               textAnchor="end"
               dominantBaseline="middle"
               fill="#555"
@@ -134,7 +155,7 @@ export function RatingComparisonChart() {
           {MONTHS.map((label, i) => (
             <text
               key={`x-${i}`}
-              x={x(i)}
+              x={xPos(i)}
               y={H - 8}
               textAnchor="middle"
               fill="#555"
@@ -146,61 +167,72 @@ export function RatingComparisonChart() {
           ))}
 
           {/* ── Moody's stepped line (gray, solid) ── */}
-          <motion.path
+          <path
+            ref={moodysRef}
             d={moodysSteppedPath()}
             fill="none"
             stroke="rgba(255,255,255,0.25)"
             strokeWidth={2}
             strokeLinecap="round"
             strokeLinejoin="round"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 2.5, ease: "easeInOut", delay: 0.4 }}
+            strokeDasharray={lengths.moodys || undefined}
+            strokeDashoffset={isInView ? 0 : lengths.moodys}
+            style={{
+              transition: lengths.moodys
+                ? "stroke-dashoffset 2.5s ease-in-out 0.4s"
+                : "none",
+            }}
           />
 
           {/* Moody's quarterly dots */}
           {MOODYS_STEPS.map(([mi, val], i) => (
             <motion.circle
               key={`m-dot-${i}`}
-              cx={x(mi)}
-              cy={y(val)}
+              cx={xPos(mi)}
+              cy={yPos(val)}
               r={3.5}
               fill="rgba(255,255,255,0.25)"
-              initial={{ opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.3, delay: 0.6 + i * 0.5 }}
             />
           ))}
 
           {/* ── Moody's dotted extension (stale) ── */}
-          <motion.path
+          <path
+            ref={moodysDottedRef}
             d={moodysDottedPath()}
             fill="none"
             stroke="rgba(255,255,255,0.15)"
             strokeWidth={2}
-            strokeDasharray="6 5"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 3 }}
+            strokeDasharray={
+              lengths.moodysDotted
+                ? `6 5`
+                : undefined
+            }
+            strokeDashoffset={isInView ? 0 : lengths.moodysDotted + 100}
+            style={{
+              transition: lengths.moodysDotted
+                ? "stroke-dashoffset 0.8s ease-out 3s"
+                : "none",
+            }}
           />
 
           {/* ── Pistos line (red, animated draw) ── */}
-          <motion.path
+          <path
+            ref={pistosRef}
             d={pistosPath()}
             fill="none"
             stroke="#ef4444"
             strokeWidth={2.5}
             strokeLinecap="round"
             strokeLinejoin="round"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 3, ease: "easeInOut", delay: 0.2 }}
+            strokeDasharray={lengths.pistos || undefined}
+            strokeDashoffset={isInView ? 0 : lengths.pistos}
             style={{
+              transition: lengths.pistos
+                ? "stroke-dashoffset 3s ease-in-out 0.2s"
+                : "none",
               filter: "drop-shadow(0 0 6px rgba(239, 68, 68, 0.35))",
             }}
           />
@@ -209,65 +241,66 @@ export function RatingComparisonChart() {
           {PISTOS_DATA.map((val, i) => (
             <motion.circle
               key={`p-dot-${i}`}
-              cx={x(i)}
-              cy={y(val)}
+              cx={xPos(i)}
+              cy={yPos(val)}
               r={3}
               fill="#ef4444"
-              initial={{ opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.2, delay: 0.2 + i * 0.23 }}
             />
           ))}
 
           {/* ── Blinking "live" indicator at Pistos endpoint ── */}
-          {/* Pulsing outer ring */}
-          <motion.circle
-            cx={lastX}
-            cy={lastY}
-            r={5}
-            fill="none"
-            stroke="#ef4444"
-            strokeWidth={1.5}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 3.3 }}
-          >
-            <animate
-              attributeName="r"
-              values="5;10;5"
-              dur="2s"
-              repeatCount="indefinite"
-            />
-            <animate
-              attributeName="opacity"
-              values="0.7;0;0.7"
-              dur="2s"
-              repeatCount="indefinite"
-            />
-          </motion.circle>
+          {isInView && (
+            <>
+              {/* Pulsing outer ring */}
+              <motion.circle
+                cx={lastX}
+                cy={lastY}
+                r={5}
+                fill="none"
+                stroke="#ef4444"
+                strokeWidth={1.5}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 3.3 }}
+              >
+                <animate
+                  attributeName="r"
+                  values="5;11;5"
+                  dur="2s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="opacity"
+                  values="0.7;0;0.7"
+                  dur="2s"
+                  repeatCount="indefinite"
+                />
+              </motion.circle>
 
-          {/* Solid center dot */}
-          <motion.circle
-            cx={lastX}
-            cy={lastY}
-            r={4.5}
-            fill="#ef4444"
-            initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.3,
-              delay: 3.3,
-              type: "spring",
-              stiffness: 300,
-              damping: 15,
-            }}
-            style={{
-              filter: "drop-shadow(0 0 4px rgba(239, 68, 68, 0.6))",
-            }}
-          />
+              {/* Solid center dot */}
+              <motion.circle
+                cx={lastX}
+                cy={lastY}
+                r={4.5}
+                fill="#ef4444"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  duration: 0.3,
+                  delay: 3.3,
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 15,
+                }}
+                style={{
+                  filter: "drop-shadow(0 0 4px rgba(239, 68, 68, 0.6))",
+                }}
+              />
+            </>
+          )}
         </svg>
 
         {/* Legend */}
