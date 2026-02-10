@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 
 export function Hero() {
   return (
-    <section className="flex min-h-[60vh] items-center pt-16 md:min-h-screen">
-      <div className="mx-auto max-w-5xl px-6 py-20 md:px-8 md:py-32">
+    <section className="flex min-h-[60vh] items-center pt-16 md:min-h-[55vh]">
+      <div className="mx-auto max-w-5xl px-6 py-12 md:px-8 md:py-16">
         <div className="max-w-3xl">
           <motion.h1
             initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
