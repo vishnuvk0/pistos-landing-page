@@ -10,7 +10,7 @@ export function Problem() {
 
   return (
     <SectionWrapper id="problem">
-      <div className="section-divider mb-20" />
+      <div className="section-divider mb-10" />
       <div className="text-center">
         <motion.h2
           initial={{ opacity: 0, y: 24 }}
