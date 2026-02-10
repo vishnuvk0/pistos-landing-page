@@ -67,7 +67,6 @@ export const ALUMNI_LOGOS = [
   { name: "Tesla", logoPath: "/images/logos/tesla.png", height: 32 },
   { name: "Goldman Sachs", logoPath: "/images/logos/goldman-sachs.png", height: 32 },
   { name: "Google", logoPath: "/images/logos/google.png", height: 32 },
-  { name: "Intel", logoPath: "/images/logos/intel.svg", height: 40 },
   { name: "American Express", logoPath: "/images/logos/american-express.svg", height: 44 },
 ] as const;
 

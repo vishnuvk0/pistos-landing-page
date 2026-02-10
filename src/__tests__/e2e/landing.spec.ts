@@ -68,7 +68,7 @@ test.describe("Landing page", () => {
 
     const logos = marquee.locator("img");
     const count = await logos.count();
-    expect(count).toBeGreaterThanOrEqual(7);
+    expect(count).toBeGreaterThanOrEqual(6);
   });
 
   test("font stack is configured correctly", async ({ page }) => {
