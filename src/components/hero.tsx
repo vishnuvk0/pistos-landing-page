@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export function Hero() {
   return (
-    <section className="flex min-h-screen items-center pt-16">
+    <section className="flex min-h-[70vh] items-center pt-16 md:min-h-screen">
       <div className="mx-auto max-w-5xl px-6 py-20 md:px-8 md:py-32">
         <div className="max-w-3xl">
           <motion.h1
