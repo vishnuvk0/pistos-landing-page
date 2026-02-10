@@ -23,7 +23,10 @@ export function LogoMarquee() {
             <img
               src={logo.logoPath}
               alt={logo.name}
-              style={{ height: logo.height }}
+              style={{
+                height: logo.height,
+                ...("offsetY" in logo && { transform: `translateY(${logo.offsetY}px)` }),
+              }}
               className={`${"filterClass" in logo ? logo.filterClass : "logo-white"} w-auto opacity-60 transition-opacity hover:opacity-100`}
             />
           </div>

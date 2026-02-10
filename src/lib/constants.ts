@@ -63,8 +63,8 @@ export const NAV_LINKS = [
 
 export const ALUMNI_LOGOS = [
   { name: "Visa", logoPath: "/images/logos/visa.png", height: 32 },
-  { name: "Amazon", logoPath: "/images/logos/amazon.png", height: 40 },
-  { name: "Tesla", logoPath: "/images/logos/tesla.png", height: 32 },
+  { name: "Amazon", logoPath: "/images/logos/amazon.png", height: 40, offsetY: 3 },
+  { name: "Tesla", logoPath: "/images/logos/tesla.png", height: 32, offsetY: -2 },
   { name: "Goldman Sachs", logoPath: "/images/logos/goldman-sachs.png", height: 32 },
   { name: "Google", logoPath: "/images/logos/google.png", height: 32 },
   { name: "American Express", logoPath: "https://www.americanexpress.com/content/dam/amex/us/merchant/supplies-uplift/product/images/img-WEBLOGO1-01.jpg", height: 40, filterClass: "logo-white-jpg" as const },
