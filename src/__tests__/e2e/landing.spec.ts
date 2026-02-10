@@ -17,7 +17,6 @@ test.describe("Landing page", () => {
 
     await expect(page.locator("#problem")).toBeAttached();
     await expect(page.locator("#solution")).toBeAttached();
-    await expect(page.locator("#about")).toBeAttached();
     await expect(page.locator("#contact")).toBeAttached();
   });
 

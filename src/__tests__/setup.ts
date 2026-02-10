@@ -9,6 +9,28 @@ global.ResizeObserver = class ResizeObserver {
   disconnect() {}
 };
 
+// Polyfill IntersectionObserver for jsdom (used by motion/react whileInView)
+global.IntersectionObserver = class IntersectionObserver {
+  readonly root: Element | null = null;
+  readonly rootMargin: string = "";
+  readonly thresholds: ReadonlyArray<number> = [];
+  constructor(
+    private callback: IntersectionObserverCallback,
+    _options?: IntersectionObserverInit
+  ) {
+    // Immediately call with all entries as intersecting so whileInView triggers in tests
+    setTimeout(() => {
+      this.callback([], this);
+    }, 0);
+  }
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+  takeRecords(): IntersectionObserverEntry[] {
+    return [];
+  }
+};
+
 afterEach(() => {
   cleanup();
 });

@@ -1,10 +1,7 @@
 export const COMPANY = {
   name: "Pistos",
-  tagline: "AI-Powered Credit Ratings. 100x Faster.",
-  description:
-    "Pistos is building the first full-stack AI credit rating agency for municipal governments and private credit.",
-  mission:
-    "We believe credit markets deserve better. Legacy rating agencies rely on decades-old methodologies, leaving vast swaths of the market unrated and underserved. Pistos combines frontier AI with deep credit expertise to deliver faster, more accurate, and more transparent ratings — starting with the $4T municipal bond market.",
+  tagline: "Credit Ratings. Minutes, Not Months.",
+  description: "The first AI credit rating agency.",
   contactEmail: "info@pistos.ai",
   social: {
     linkedin: "https://linkedin.com/company/pistos-ai",
@@ -15,49 +12,31 @@ export const COMPANY = {
 export const STATS = [
   {
     value: "98.8%",
-    label: "of muni bonds are unrated or stale-rated",
-    description:
-      "The vast majority of the $4T municipal bond market lacks current, reliable credit analysis.",
+    label: "controlled by three firms",
+    description: "Slow, biased, and unchanged since 2008.",
   },
   {
     value: "1/3",
-    label: "of issuers have never been rated",
-    description:
-      "Tens of thousands of municipalities have zero coverage from legacy agencies.",
+    label: "of muni offerings go unrated",
+    description: "Issuers can't afford the fees.",
   },
   {
     value: "$3.5T",
-    label: "market underserved by legacy agencies",
-    description:
-      "Trillions in outstanding municipal debt lack the analytical coverage investors need.",
+    label: "private credit left underserved",
+    description: "No transparent rating standard exists.",
   },
 ] as const;
 
-export const FEATURES = [
-  {
-    title: "AI-Native",
-    description:
-      "Purpose-built AI models trained on decades of municipal credit data, financial statements, and macroeconomic indicators. Our models analyze in minutes what takes legacy agencies months.",
-    icon: "brain",
-  },
-  {
-    title: "Full-Stack",
-    description:
-      "End-to-end coverage from data ingestion and normalization through credit analysis, rating assignment, and ongoing surveillance. One platform, complete coverage.",
-    icon: "layers",
-  },
-  {
-    title: "Municipal & Private Credit",
-    description:
-      "Starting with the $4T municipal bond market — the largest underserved segment — then expanding into private credit, infrastructure finance, and beyond.",
-    icon: "building",
-  },
+export const PROCESS_STEPS = [
+  "Importing from Excel",
+  "Parsing existing models",
+  "Running credit analysis",
+  "Rating delivered",
 ] as const;
 
 export const NAV_LINKS = [
   { label: "Problem", href: "#problem" },
   { label: "Solution", href: "#solution" },
-  { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
@@ -72,16 +51,11 @@ export const ALUMNI_LOGOS = [
 
 export const SECTIONS = {
   problem: {
-    heading: "The Credit Rating Gap",
-    description:
-      "The municipal bond market is massive — yet chronically underserved by legacy rating agencies that lack the technology and incentives to provide broad coverage.",
+    heading: "A Broken Oligopoly",
+    description: "Slow, biased, and manual.",
   },
   solution: {
-    heading: "A New Kind of Rating Agency",
-    description:
-      "Pistos combines frontier AI with deep credit expertise to deliver faster, more accurate, and more transparent credit analysis.",
-  },
-  about: {
-    heading: `About ${COMPANY.name}`,
+    heading: "How Pistos Works",
+    description: "Your agents talk to our agents.",
   },
 } as const;
