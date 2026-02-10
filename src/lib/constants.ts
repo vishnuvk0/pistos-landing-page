@@ -1,8 +1,8 @@
 export const COMPANY = {
   name: "Pistos",
-  tagline: "Credit Ratings. Minutes, Not Months.",
-  description: "The first AI credit rating agency.",
-  contactEmail: "info@pistos.ai",
+  tagline: "Get Rated Instantly.",
+  description: "The first fully agentic credit rating agency.",
+  contactEmail: "info@pistosai.com",
   social: {
     linkedin: "https://linkedin.com/company/pistos-ai",
     twitter: "https://x.com/pistos_ai",
