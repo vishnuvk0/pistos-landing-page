@@ -62,13 +62,12 @@ export const NAV_LINKS = [
 ] as const;
 
 export const ALUMNI_LOGOS = [
-  { name: "Visa", logoPath: "/images/logos/visa.png" },
-  { name: "Amazon", logoPath: "/images/logos/amazon.png" },
-  { name: "Tesla", logoPath: "/images/logos/tesla.png" },
-  { name: "Goldman Sachs", logoPath: "/images/logos/goldman-sachs.png" },
-  { name: "Google", logoPath: "/images/logos/google.png" },
-  { name: "Intel", logoPath: "/images/logos/intel.svg" },
-  { name: "American Express", logoPath: "/images/logos/american-express.png" },
+  { name: "Visa", logoPath: "/images/logos/visa.png", height: 32 },
+  { name: "Amazon", logoPath: "/images/logos/amazon.png", height: 40, offsetY: 3 },
+  { name: "Tesla", logoPath: "/images/logos/tesla.png", height: 32, offsetY: -2 },
+  { name: "Goldman Sachs", logoPath: "/images/logos/goldman-sachs.png", height: 32 },
+  { name: "Google", logoPath: "/images/logos/google.png", height: 32 },
+  { name: "American Express", logoPath: "https://www.americanexpress.com/content/dam/amex/us/merchant/supplies-uplift/product/images/img-WEBLOGO1-01.jpg", height: 40, filterClass: "logo-white-jpg" as const },
 ] as const;
 
 export const SECTIONS = {

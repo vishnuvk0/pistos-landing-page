@@ -14,6 +14,9 @@
   --white-10: rgba(255, 255, 255, 0.1);
   --white-20: rgba(255, 255, 255, 0.2);
   --white-05: rgba(255, 255, 255, 0.05);
+
+  --font-body: "Helvetica Now Text", "Helvetica Neue", "Helvetica", "Arial", system-ui, sans-serif;
+  --font-heading: "Helvetica Now Text", "Helvetica Neue", "Helvetica", "Arial", system-ui, sans-serif;
 }
 
 @theme inline {
@@ -40,10 +43,14 @@ html {
 body {
   background: var(--background);
   color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading), system-ui, sans-serif;
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
 }
 
 /* Grid pattern overlay */
@@ -76,6 +83,11 @@ h1, h2, h3, h4, h5, h6 {
 /* Logo filter for ensuring white logos */
 .logo-white {
   filter: brightness(0) invert(1);
+}
+
+/* Logo filter for JPG logos with white backgrounds (inverts bg to black, content to white) */
+.logo-white-jpg {
+  filter: invert(1) grayscale(1) brightness(2);
 }
 
 /* Animations */

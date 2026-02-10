@@ -24,7 +24,7 @@ const icons: Record<string, React.ReactNode> = {
 
 export function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
-    <div className="rounded-lg border border-border bg-surface-elevated p-8 transition-colors hover:border-white-20">
+    <div className="rounded-xl border border-border bg-surface-elevated p-8 transition-colors duration-200 hover:border-white-20">
       <div className="mb-4 inline-flex rounded-md bg-white-05 p-2.5 text-text-secondary">
         {icons[icon] ?? null}
       </div>

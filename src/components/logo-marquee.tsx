@@ -11,17 +11,25 @@ export function LogoMarquee() {
     >
       <div className="mx-auto max-w-5xl px-6 md:px-8">
         <p className="mb-8 text-center text-sm text-text-tertiary uppercase tracking-widest">
-          Made by alumni from
+          Built by alumni from
         </p>
       </div>
       <Marquee speed={40} gradient={false} pauseOnHover={true}>
         {ALUMNI_LOGOS.map((logo) => (
-          <img
+          <div
             key={logo.name}
-            src={logo.logoPath}
-            alt={logo.name}
-            className="logo-white mx-12 h-8 w-auto opacity-60 transition-opacity hover:opacity-100"
-          />
+            className="mx-8 flex h-12 items-center justify-center"
+          >
+            <img
+              src={logo.logoPath}
+              alt={logo.name}
+              style={{
+                height: logo.height,
+                ...("offsetY" in logo && { transform: `translateY(${logo.offsetY}px)` }),
+              }}
+              className={`${"filterClass" in logo ? logo.filterClass : "logo-white"} w-auto opacity-60 transition-opacity hover:opacity-100`}
+            />
+          </div>
         ))}
       </Marquee>
     </section>

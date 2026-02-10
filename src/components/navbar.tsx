@@ -7,9 +7,9 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4 md:px-8">
-        <a href="#" className="text-lg font-bold text-white">
+    <nav className="fixed top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5 md:px-8">
+        <a href="#" className="text-lg font-semibold tracking-tight text-white">
           {COMPANY.name}
         </a>
 
@@ -19,7 +19,7 @@ export function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-text-secondary transition-colors hover:text-white"
+              className="text-sm text-text-secondary transition-colors duration-200 hover:text-white"
             >
               {link.label}
             </a>
