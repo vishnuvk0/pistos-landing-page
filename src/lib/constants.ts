@@ -28,9 +28,9 @@ export const STATS = [
 ] as const;
 
 export const PROCESS_STEPS = [
-  "Receiving financial data",
-  "Processing legal documents",
-  "Running credit models",
+  "Importing from Excel",
+  "Parsing existing models",
+  "Running credit analysis",
   "Rating delivered",
 ] as const;
 
@@ -52,7 +52,7 @@ export const ALUMNI_LOGOS = [
 export const SECTIONS = {
   problem: {
     heading: "A Broken Oligopoly",
-    description: "Their bias helped cause the 2008 crisis.",
+    description: "Slow, biased, and manual.",
   },
   solution: {
     heading: "How Pistos Works",

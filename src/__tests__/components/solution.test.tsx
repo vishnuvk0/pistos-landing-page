@@ -23,14 +23,6 @@ describe("Solution", () => {
     }
   });
 
-  it("shows speed comparison labels", () => {
-    render(<Solution />);
-    expect(screen.getByText("Legacy Agencies")).toBeInTheDocument();
-    expect(screen.getByText("Pistos")).toBeInTheDocument();
-    expect(screen.getByText("4-8 weeks")).toBeInTheDocument();
-    expect(screen.getByText("Minutes")).toBeInTheDocument();
-  });
-
   it("renders the terminal dots", () => {
     const { container } = render(<Solution />);
     const dots = container.querySelectorAll(".rounded-full.bg-white\\/10");
@@ -40,5 +32,27 @@ describe("Solution", () => {
   it("shows completion time on last step", () => {
     render(<Solution />);
     expect(screen.getByText("4m 12s")).toBeInTheDocument();
+  });
+
+  it("shows lead time comparison labels", () => {
+    render(<Solution />);
+    expect(screen.getByText("Lead Time")).toBeInTheDocument();
+    expect(screen.getByText("4-8 weeks")).toBeInTheDocument();
+    expect(screen.getByText("Minutes")).toBeInTheDocument();
+  });
+
+  it("shows data freshness comparison", () => {
+    render(<Solution />);
+    expect(screen.getByText("Data Freshness")).toBeInTheDocument();
+    expect(screen.getByText("Quarterly updates")).toBeInTheDocument();
+    expect(screen.getByText("Always live")).toBeInTheDocument();
+  });
+
+  it("renders integration badges", () => {
+    render(<Solution />);
+    expect(screen.getByText("Works with your stack")).toBeInTheDocument();
+    for (const tool of ["Excel", "Python", "Bloomberg", "SAP", "SQL"]) {
+      expect(screen.getByText(tool)).toBeInTheDocument();
+    }
   });
 });
