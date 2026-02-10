@@ -1,4 +1,4 @@
-import { STATS } from "@/lib/constants";
+import { STATS, SECTIONS } from "@/lib/constants";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { StatCard } from "@/components/ui/stat-card";
 
@@ -8,12 +8,10 @@ export function Problem() {
       <div className="section-divider mb-20" />
       <div className="text-center">
         <h2 className="text-3xl font-bold text-white md:text-4xl">
-          The Credit Rating Gap
+          {SECTIONS.problem.heading}
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-text-secondary">
-          The municipal bond market is massive — yet chronically underserved by
-          legacy rating agencies that lack the technology and incentives to
-          provide broad coverage.
+          {SECTIONS.problem.description}
         </p>
       </div>
 

@@ -35,4 +35,9 @@ describe("Home page", () => {
       expect(container.querySelector(`#${id}`)).toBeInTheDocument();
     }
   });
+
+  it("renders the LogoMarquee section", () => {
+    render(<Home />);
+    expect(screen.getByText("Made by alumni from")).toBeInTheDocument();
+  });
 });

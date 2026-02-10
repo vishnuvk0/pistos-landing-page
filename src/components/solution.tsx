@@ -1,4 +1,4 @@
-import { FEATURES } from "@/lib/constants";
+import { FEATURES, SECTIONS } from "@/lib/constants";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { FeatureCard } from "@/components/ui/feature-card";
 
@@ -8,11 +8,10 @@ export function Solution() {
       <div className="section-divider mb-20" />
       <div className="text-center">
         <h2 className="text-3xl font-bold text-white md:text-4xl">
-          A New Kind of Rating Agency
+          {SECTIONS.solution.heading}
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-text-secondary">
-          Pistos combines frontier AI with deep credit expertise to deliver
-          faster, more accurate, and more transparent credit analysis.
+          {SECTIONS.solution.description}
         </p>
       </div>
 

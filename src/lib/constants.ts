@@ -60,3 +60,29 @@ export const NAV_LINKS = [
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ] as const;
+
+export const ALUMNI_LOGOS = [
+  { name: "Visa", logoPath: "/images/logos/visa.png" },
+  { name: "Amazon", logoPath: "/images/logos/amazon.png" },
+  { name: "Tesla", logoPath: "/images/logos/tesla.png" },
+  { name: "Goldman Sachs", logoPath: "/images/logos/goldman-sachs.png" },
+  { name: "Google", logoPath: "/images/logos/google.png" },
+  { name: "Intel", logoPath: "/images/logos/intel.svg" },
+  { name: "American Express", logoPath: "/images/logos/american-express.png" },
+] as const;
+
+export const SECTIONS = {
+  problem: {
+    heading: "The Credit Rating Gap",
+    description:
+      "The municipal bond market is massive — yet chronically underserved by legacy rating agencies that lack the technology and incentives to provide broad coverage.",
+  },
+  solution: {
+    heading: "A New Kind of Rating Agency",
+    description:
+      "Pistos combines frontier AI with deep credit expertise to deliver faster, more accurate, and more transparent credit analysis.",
+  },
+  about: {
+    heading: `About ${COMPANY.name}`,
+  },
+} as const;
