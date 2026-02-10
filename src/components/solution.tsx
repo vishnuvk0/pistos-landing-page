@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { PROCESS_STEPS, SECTIONS } from "@/lib/constants";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
+import { RatingComparisonChart } from "@/components/rating-comparison-chart";
 
 export function Solution() {
   return (
@@ -196,6 +197,9 @@ export function Solution() {
             </div>
           </div>
         </div>
+
+        {/* Rating accuracy — animated line graph comparison */}
+        <RatingComparisonChart />
 
         {/* Integration badges */}
         <div className="space-y-4">
