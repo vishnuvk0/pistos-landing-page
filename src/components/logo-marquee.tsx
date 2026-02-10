@@ -7,7 +7,7 @@ import { ALUMNI_LOGOS } from "@/lib/constants";
 export function LogoMarquee() {
   return (
     <motion.section
-      className="marquee-container py-16"
+      className="marquee-container py-8 md:py-16"
       aria-label="Companies our team members previously worked at"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
