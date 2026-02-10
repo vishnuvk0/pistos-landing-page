@@ -85,6 +85,11 @@ h1, h2, h3, h4, h5, h6 {
   filter: brightness(0) invert(1);
 }
 
+/* Logo filter for JPG logos with white backgrounds (inverts bg to black, content to white) */
+.logo-white-jpg {
+  filter: invert(1) grayscale(1) brightness(2);
+}
+
 /* Animations */
 @keyframes fade-in-up {
   from {

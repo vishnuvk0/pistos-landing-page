@@ -24,7 +24,7 @@ export function LogoMarquee() {
               src={logo.logoPath}
               alt={logo.name}
               style={{ height: logo.height }}
-              className="logo-white w-auto opacity-60 transition-opacity hover:opacity-100"
+              className={`${"filterClass" in logo ? logo.filterClass : "logo-white"} w-auto opacity-60 transition-opacity hover:opacity-100`}
             />
           </div>
         ))}

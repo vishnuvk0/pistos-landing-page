@@ -67,7 +67,7 @@ export const ALUMNI_LOGOS = [
   { name: "Tesla", logoPath: "/images/logos/tesla.png", height: 32 },
   { name: "Goldman Sachs", logoPath: "/images/logos/goldman-sachs.png", height: 32 },
   { name: "Google", logoPath: "/images/logos/google.png", height: 32 },
-  { name: "American Express", logoPath: "/images/logos/american-express.svg", height: 20 },
+  { name: "American Express", logoPath: "https://www.americanexpress.com/content/dam/amex/us/merchant/supplies-uplift/product/images/img-WEBLOGO1-01.jpg", height: 40, filterClass: "logo-white-jpg" as const },
 ] as const;
 
 export const SECTIONS = {

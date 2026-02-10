@@ -47,12 +47,12 @@ describe("LogoMarquee", () => {
     }
   });
 
-  it("uses SVG for American Express logo", () => {
+  it("uses official American Express logo from CDN", () => {
     render(<LogoMarquee />);
     const amexImages = screen.getAllByAltText("American Express");
     expect(amexImages[0]).toHaveAttribute(
       "src",
-      "/images/logos/american-express.svg"
+      "https://www.americanexpress.com/content/dam/amex/us/merchant/supplies-uplift/product/images/img-WEBLOGO1-01.jpg"
     );
   });
 });
