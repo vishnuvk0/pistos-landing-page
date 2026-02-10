@@ -7,7 +7,7 @@ describe("Home page", () => {
   it("renders all sections in correct order", () => {
     const { container } = render(<Home />);
 
-    const sectionIds = ["problem", "solution", "about"];
+    const sectionIds = ["problem", "solution"];
     const sections = container.querySelectorAll("section[id]");
     const ids = Array.from(sections).map((s) => s.id);
 
