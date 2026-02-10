@@ -16,13 +16,17 @@ export function LogoMarquee() {
       </div>
       <Marquee speed={40} gradient={false} pauseOnHover={true}>
         {ALUMNI_LOGOS.map((logo) => (
-          <img
+          <div
             key={logo.name}
-            src={logo.logoPath}
-            alt={logo.name}
-            style={{ height: logo.height }}
-            className="logo-white mx-6 w-auto opacity-60 transition-opacity hover:opacity-100"
-          />
+            className="mx-8 flex h-12 items-center justify-center"
+          >
+            <img
+              src={logo.logoPath}
+              alt={logo.name}
+              style={{ height: logo.height }}
+              className="logo-white w-auto opacity-60 transition-opacity hover:opacity-100"
+            />
+          </div>
         ))}
       </Marquee>
     </section>
