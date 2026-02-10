@@ -1,6 +1,6 @@
 export const COMPANY = {
   name: "Pistos",
-  tagline: "Get Rated Instantly.",
+  tagline: "Get Rated Instantly",
   description: "The first fully agentic credit rating agency.",
   contactEmail: "info@pistosai.com",
   social: {
