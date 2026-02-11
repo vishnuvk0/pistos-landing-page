@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import Home from "@/app/page";
-import { NAV_LINKS } from "@/lib/constants";
 
 describe("Home page", () => {
   it("renders all sections in correct order", () => {
@@ -24,14 +23,7 @@ describe("Home page", () => {
   it("has nav link targets present in the document", () => {
     const { container } = render(<Home />);
 
-    // Check that section IDs from nav links (minus #) exist in the page
-    // (Contact is in the footer which is in layout, not in page)
-    const pageSectionLinks = NAV_LINKS.filter(
-      (l) => l.href !== "#contact"
-    );
-
-    for (const link of pageSectionLinks) {
-      const id = link.href.replace("#", "");
+    for (const id of ["problem", "solution"]) {
       expect(container.querySelector(`#${id}`)).toBeInTheDocument();
     }
   });

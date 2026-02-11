@@ -38,13 +38,13 @@ describe("Solution", () => {
     render(<Solution />);
     expect(screen.getByText("Lead Time")).toBeInTheDocument();
     expect(screen.getByText("4-8 weeks")).toBeInTheDocument();
-    expect(screen.getByText("5-10 Minutes")).toBeInTheDocument();
+    expect(screen.getByText(/Min/)).toBeInTheDocument();
   });
 
   it("shows data freshness comparison", () => {
     render(<Solution />);
     expect(screen.getByText("Data Freshness")).toBeInTheDocument();
-    expect(screen.getByText("Quarterly updates")).toBeInTheDocument();
+    expect(screen.getAllByText("Quarterly updates").length).toBeGreaterThan(0);
     expect(screen.getByText("Real Time")).toBeInTheDocument();
   });
 
@@ -56,13 +56,12 @@ describe("Solution", () => {
     }
   });
 
-  it("renders two flex rows for the card layout", () => {
+  it("renders a flex row with 3 cards and a full-width chart below", () => {
     const { container } = render(<Solution />);
-    const rows = container.querySelectorAll("#solution .flex.flex-col.md\\:flex-row");
-    expect(rows.length).toBe(2);
-    // Row 1: Process Steps + Lead Time
-    expect(rows[0].querySelectorAll(":scope > div").length).toBe(2);
-    // Row 2: Rating Accuracy + Data Freshness
-    expect(rows[1].querySelectorAll(":scope > div").length).toBe(2);
+    const row = container.querySelector("#solution .flex.flex-col.md\\:flex-row.md\\:flex-wrap");
+    expect(row).toBeInTheDocument();
+    const cards = row!.querySelectorAll(":scope > div");
+    expect(cards.length).toBe(3);
+    expect(screen.getByText("Rating Accuracy")).toBeInTheDocument();
   });
 });

@@ -13,7 +13,7 @@ export function Footer() {
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="mx-auto max-w-5xl px-6 md:px-8">
+      <div className="px-6 md:px-8">
         <div className="flex flex-col items-center gap-8 text-center md:flex-row md:justify-between md:text-left">
           <div>
             <h2 className="text-xl font-bold text-white">{COMPANY.name}</h2>
@@ -57,7 +57,7 @@ export function Footer() {
         </div>
 
         <div className="section-divider mt-12" />
-        <div className="pt-8 text-center">
+        <div className="pt-8 text-left">
           <p className="text-sm text-text-tertiary">
             &copy; {new Date().getFullYear()} {COMPANY.name}. All rights
             reserved.

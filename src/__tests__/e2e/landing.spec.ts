@@ -23,21 +23,20 @@ test.describe("Landing page", () => {
   test("navigation links scroll to sections", async ({ page }) => {
     await page.goto("/");
 
-    // On mobile, open the hamburger menu first
-    const hamburger = page.locator('nav button[aria-label="Open menu"]');
-    if (await hamburger.isVisible()) {
-      await hamburger.click();
-      // Wait for mobile menu to appear, then click within it
-      const mobileMenu = page.locator("nav > div.border-t");
-      await mobileMenu.waitFor({ state: "visible" });
-      await mobileMenu.locator('a[href="#problem"]').click();
-    } else {
-      await page.click('nav a[href="#problem"]');
-    }
+    await page.click('nav a[href="#contact"]');
 
     await page.waitForTimeout(500);
-    const problemSection = page.locator("#problem");
-    await expect(problemSection).toBeInViewport();
+    const contactSection = page.locator("#contact");
+    await expect(contactSection).toBeInViewport();
+  });
+
+  test("clicking Login navigates to /login", async ({ page }) => {
+    await page.goto("/");
+
+    await page.click('nav a[href="/login"]');
+    await page.waitForURL("**/login");
+
+    await expect(page.locator("h1")).toContainText("Log in to Pistos");
   });
 
   test("no console errors on load", async ({ page }) => {

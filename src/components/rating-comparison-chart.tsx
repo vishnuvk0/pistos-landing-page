@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "motion/react";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useLayoutEffect, useState } from "react";
 
 // Moody's rating scale for Y-axis (top = best)
 const RATINGS = ["Aaa", "Aa", "A", "Baa", "Ba"];
@@ -80,8 +80,8 @@ const MOODYS_LAST_MONTH = 10;
 
 // Chart layout — extra padding for larger labels
 const W = 720;
-const H = 340;
-const PAD = { top: 28, right: 32, bottom: 56, left: 72 };
+const H = 200;
+const PAD = { top: 16, right: 32, bottom: 36, left: 72 };
 const PLOT_W = W - PAD.left - PAD.right;
 const PLOT_H = H - PAD.top - PAD.bottom;
 
@@ -123,6 +123,42 @@ function moodysDottedPath(): string {
   return `M${xPos(MOODYS_LAST_MONTH)},${yPos(lastVal)} L${xPos(MONTHS.length - 1)},${yPos(lastVal)}`;
 }
 
+/** Get Moody's stepped rating value at any month index */
+function moodysValueAt(monthIndex: number): number {
+  for (let i = MOODYS_STEPS.length - 1; i >= 0; i--) {
+    if (monthIndex >= MOODYS_STEPS[i][0]) {
+      return MOODYS_STEPS[i][1];
+    }
+  }
+  return MOODYS_STEPS[0][1];
+}
+
+/** Generate fill path for the area between Pistos and Moody's (including stale region) */
+function differentialFillPath(): string {
+  const parts: string[] = [];
+  const lastMoodysVal = MOODYS_STEPS[MOODYS_STEPS.length - 1][1];
+
+  for (let i = 0; i < PISTOS_DATA.length - 1; i++) {
+    const [x1m, y1p] = PISTOS_DATA[i];
+    const [x2m, y2p] = PISTOS_DATA[i + 1];
+
+    // Use stepped value in solid region, flat last value in stale region
+    const y1moodys = x1m <= MOODYS_LAST_MONTH ? moodysValueAt(x1m) : lastMoodysVal;
+    const y2moodys = x2m <= MOODYS_LAST_MONTH ? moodysValueAt(x2m) : lastMoodysVal;
+
+    const px1 = xPos(x1m);
+    const px2 = xPos(x2m);
+    const py1p = yPos(y1p);
+    const py2p = yPos(y2p);
+    const py1m = yPos(y1moodys);
+    const py2m = yPos(y2moodys);
+
+    parts.push(`M${px1},${py1p} L${px2},${py2p} L${px2},${py2m} L${px1},${py1m} Z`);
+  }
+
+  return parts.join(" ");
+}
+
 export function RatingComparisonChart() {
   const containerRef = useRef<HTMLDivElement>(null);
   const pistosRef = useRef<SVGPathElement>(null);
@@ -132,7 +168,7 @@ export function RatingComparisonChart() {
 
   const [lengths, setLengths] = useState({ pistos: 0, moodys: 0 });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const p = pistosRef.current?.getTotalLength() ?? 0;
     const m = moodysRef.current?.getTotalLength() ?? 0;
     setLengths({ pistos: p, moodys: m });
@@ -148,12 +184,20 @@ export function RatingComparisonChart() {
         Rating Accuracy
       </h3>
 
-      <div className="overflow-hidden rounded-xl border border-border bg-surface-elevated p-4 md:p-6">
+      <div className="overflow-hidden">
         <svg
           viewBox={`0 0 ${W} ${H}`}
           className="h-auto w-full"
           preserveAspectRatio="xMidYMid meet"
         >
+          {/* Gradient defs for differential fill */}
+          <defs>
+            <linearGradient id="greenFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#34d399" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#34d399" stopOpacity="0.03" />
+            </linearGradient>
+          </defs>
+
           {/* Horizontal grid lines */}
           {RATINGS.map((_, i) => (
             <line
@@ -176,7 +220,7 @@ export function RatingComparisonChart() {
               textAnchor="end"
               dominantBaseline="middle"
               fill="#666"
-              fontSize={20}
+              fontSize={10}
               fontFamily="ui-monospace, monospace"
             >
               {label}
@@ -191,12 +235,21 @@ export function RatingComparisonChart() {
               y={H - 10}
               textAnchor="middle"
               fill="#666"
-              fontSize={18}
+              fontSize={9}
               fontFamily="ui-monospace, monospace"
             >
               {label}
             </text>
           ))}
+
+          {/* ── Differential fill between Pistos and Moody's ── */}
+          <motion.path
+            d={differentialFillPath()}
+            fill="url(#greenFill)"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 1, delay: 2.5 }}
+          />
 
           {/* ── Moody's stepped line (gray, solid) ── */}
           <path
@@ -204,7 +257,7 @@ export function RatingComparisonChart() {
             d={moodysSteppedPath()}
             fill="none"
             stroke="rgba(255,255,255,0.3)"
-            strokeWidth={3.5}
+            strokeWidth={1.5}
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeDasharray={lengths.moodys || undefined}
@@ -221,7 +274,7 @@ export function RatingComparisonChart() {
             d={moodysDottedPath()}
             fill="none"
             stroke="rgba(255,255,255,0.18)"
-            strokeWidth={3.5}
+            strokeWidth={1.5}
             strokeDasharray="8 6"
             strokeLinecap="round"
             initial={{ opacity: 0 }}
@@ -234,8 +287,8 @@ export function RatingComparisonChart() {
             ref={pistosRef}
             d={pistosPath()}
             fill="none"
-            stroke="#ef4444"
-            strokeWidth={3.5}
+            stroke="#34d399"
+            strokeWidth={1.5}
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeDasharray={lengths.pistos || undefined}
@@ -244,7 +297,7 @@ export function RatingComparisonChart() {
               transition: lengths.pistos
                 ? "stroke-dashoffset 3s ease-in-out 0.2s"
                 : "none",
-              filter: "drop-shadow(0 0 6px rgba(239, 68, 68, 0.35))",
+              filter: "drop-shadow(0 0 6px rgba(52, 211, 153, 0.35))",
             }}
           />
 
@@ -257,7 +310,7 @@ export function RatingComparisonChart() {
                 cy={lastY}
                 r={5}
                 fill="none"
-                stroke="#ef4444"
+                stroke="#34d399"
                 strokeWidth={1.5}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -282,7 +335,7 @@ export function RatingComparisonChart() {
                 cx={lastX}
                 cy={lastY}
                 r={5}
-                fill="#ef4444"
+                fill="#34d399"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{
@@ -293,7 +346,7 @@ export function RatingComparisonChart() {
                   damping: 15,
                 }}
                 style={{
-                  filter: "drop-shadow(0 0 4px rgba(239, 68, 68, 0.6))",
+                  filter: "drop-shadow(0 0 4px rgba(52, 211, 153, 0.6))",
                 }}
               />
             </>
@@ -304,15 +357,15 @@ export function RatingComparisonChart() {
         <div className="mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 border-t border-white/5 pt-4 text-xs">
           <div className="flex items-center gap-2">
             <span
-              className="inline-block h-0.5 w-6 rounded-full bg-[#ef4444]"
-              style={{ boxShadow: "0 0 4px rgba(239, 68, 68, 0.5)" }}
+              className="inline-block h-0.5 w-6 rounded-full bg-[#34d399]"
+              style={{ boxShadow: "0 0 4px rgba(52, 211, 153, 0.5)" }}
             />
             <span className="text-text-secondary">Pistos</span>
             <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ef4444] opacity-75" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#ef4444]" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#34d399] opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#34d399]" />
             </span>
-            <span className="font-medium text-[#ef4444]">Live</span>
+            <span className="font-medium text-[#34d399]">Live</span>
           </div>
 
           <div className="flex items-center gap-2">

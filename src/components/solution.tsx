@@ -147,7 +147,7 @@ export function Solution() {
           <div>
             <div className="mb-2 flex justify-between text-sm">
               <span className="font-medium text-white">Pistos</span>
-              <span className="font-medium text-accent-green">5-10 Minutes</span>
+              <span className="font-medium text-accent-green"> &lt; 5 Min</span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-white/5">
               <motion.div
@@ -164,20 +164,7 @@ export function Solution() {
           </div>
         </motion.div>
 
-      </div>
-
-      {/* Row 2: Rating accuracy (wider) + Data Freshness (auto, centered) */}
-      <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-          className="md:flex-[3%]"
-        >
-          <RatingComparisonChart />
-        </motion.div>
-
+        {/* Data Freshness comparison */}
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -193,6 +180,24 @@ export function Solution() {
           <div>
             <div className="mb-2 flex justify-between text-sm">
               <span className="text-text-secondary">Kroll</span>
+              <span className="text-text-tertiary">Quarterly updates</span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-white/5">
+              <motion.div
+                className="h-full rounded-full bg-white/20"
+                initial={{ width: 0 }}
+
+                whileInView={{ width: "25%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+              />
+            </div>
+          </div>
+
+          {/* Moodys — stale, quarterly */}
+          <div>
+            <div className="mb-2 flex justify-between text-sm">
+              <span className="text-text-secondary">Moody&apos;s</span>
               <span className="text-text-tertiary">Quarterly updates</span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-white/5">
@@ -224,7 +229,6 @@ export function Solution() {
             </div>
           </div>
 
-
           {/* Pistos — always live */}
           <div>
             <div className="mb-2 flex items-center justify-between text-sm">
@@ -252,6 +256,16 @@ export function Solution() {
           </div>
         </motion.div>
       </div>
+      {/* Rating accuracy chart — full-width row */}
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+        className="mt-6 rounded-xl border border-border bg-surface-elevated p-6"
+      >
+        <RatingComparisonChart />
+      </motion.div>
 
       {/* Integration badges — left-half below grid */}
       <motion.div
@@ -259,7 +273,7 @@ export function Solution() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-        className="mt-6 space-y-4 md:w-[45%]"
+        className="mt-6 space-y-4 md:w-1/2"
       >
         <h3 className="text-xs font-medium uppercase tracking-widest text-text-tertiary">
           Works with your stack
