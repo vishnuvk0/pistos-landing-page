@@ -11,7 +11,7 @@ export function Problem() {
   return (
     <SectionWrapper id="problem">
       <div className="section-divider mb-10" />
-      <div className="text-center">
+      <div>
         <motion.h2
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -30,7 +30,7 @@ export function Problem() {
             delay: 0.1,
             ease: [0.25, 0.1, 0.25, 1],
           }}
-          className="mx-auto mt-4 max-w-2xl text-text-secondary"
+          className="mt-4 max-w-2xl text-text-secondary"
         >
           {SECTIONS.problem.description}
         </motion.p>
@@ -42,7 +42,7 @@ export function Problem() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.5, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
-        className="mx-auto mt-16 max-w-xl rounded-xl border border-border bg-surface-elevated"
+        className="mt-16 max-w-xl rounded-xl border border-border bg-surface-elevated"
       >
         {STATS.map((stat, i) => {
           const isOpen = openIndex === i;

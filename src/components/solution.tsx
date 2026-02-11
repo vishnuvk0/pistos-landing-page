@@ -9,7 +9,7 @@ export function Solution() {
   return (
     <SectionWrapper id="solution">
       <div className="section-divider mb-10" />
-      <div className="text-center">
+      <div>
         <motion.h2
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -28,200 +28,238 @@ export function Solution() {
             delay: 0.1,
             ease: [0.25, 0.1, 0.25, 1],
           }}
-          className="mx-auto mt-4 max-w-2xl text-text-secondary"
+          className="mt-4 max-w-2xl text-text-secondary"
         >
           {SECTIONS.solution.description}
         </motion.p>
       </div>
 
-      {/* Tiered staggered layout — alternating left/right blocks */}
+      {/* 2x2 card grid */}
+      <div className="mt-10 flex flex-col gap-6 md:flex-row md:flex-wrap">
+        {/* Row 1 left: Process terminal */}
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+          className="rounded-xl border border-border bg-surface-elevated p-6 md:flex-1"
+        >
+          {/* Terminal dots */}
+          <div className="mb-5 flex items-center gap-1.5">
+            <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
+            <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
+            <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
+          </div>
 
-      {/* 1. Process terminal — left-aligned */}
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-        className="mt-10 rounded-xl border border-border bg-surface-elevated p-6 md:w-[55%] md:mr-auto"
-      >
-        {/* Terminal dots */}
-        <div className="mb-5 flex items-center gap-1.5">
-          <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
-          <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
-          <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
-        </div>
-
-        {/* Process lines */}
-        <div className="space-y-0">
-          {PROCESS_STEPS.map((step, i) => {
-            const isLast = i === PROCESS_STEPS.length - 1;
-            return (
-              <motion.div
-                key={step}
-                initial={{ opacity: 0, x: -12 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.3,
-                  delay: 0.3 + i * 0.18,
-                  ease: "easeOut",
-                }}
-                className={`flex items-center justify-between py-3 ${
-                  !isLast ? "border-b border-white/5" : ""
-                }`}
-              >
-                <span className="text-sm font-mono text-text-secondary">
-                  {step}
-                </span>
-                <motion.span
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
+          {/* Process lines */}
+          <div className="space-y-0">
+            {PROCESS_STEPS.map((step, i) => {
+              const isLast = i === PROCESS_STEPS.length - 1;
+              return (
+                <motion.div
+                  key={step}
+                  initial={{ opacity: 0, x: -12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{
-                    duration: 0.25,
-                    delay: 0.6 + i * 0.18,
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 15,
+                    duration: 0.3,
+                    delay: 0.3 + i * 0.18,
+                    ease: "easeOut",
                   }}
-                  className={
-                    isLast
-                      ? "text-xs font-mono font-medium text-accent-green"
-                      : "text-accent-green text-sm"
-                  }
+                  className={`flex items-center justify-between py-3 ${
+                    !isLast ? "border-b border-white/5" : ""
+                  }`}
                 >
-                  {isLast ? "4m 12s" : "\u2713"}
-                </motion.span>
-              </motion.div>
-            );
-          })}
-        </div>
-      </motion.div>
+                  <span className="text-sm font-mono text-text-secondary">
+                    {step}
+                  </span>
+                  <motion.span
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      duration: 0.25,
+                      delay: 0.6 + i * 0.18,
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 15,
+                    }}
+                    className={
+                      isLast
+                        ? "text-xs font-mono font-medium text-accent-green"
+                        : "text-accent-green text-sm"
+                    }
+                  >
+                    {isLast ? "4m 12s" : "\u2713"}
+                  </motion.span>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
 
-      {/* 2. Lead Time comparison — right-aligned */}
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-        className="mt-8 space-y-6 rounded-xl border border-border bg-surface-elevated p-6 md:mt-10 md:w-[55%] md:ml-auto"
-      >
-        <h3 className="text-xs font-medium uppercase tracking-widest text-text-tertiary">
-          Lead Time
-        </h3>
+        {/* Row 1 right: Lead Time comparison */}
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+          className="space-y-6 rounded-xl border border-border bg-surface-elevated p-6 md:flex-1"
+        >
+          <h3 className="text-xs font-medium uppercase tracking-widest text-text-tertiary">
+            Lead Time
+          </h3>
 
+          {/* Legacy bar */}
+          <div>
+            <div className="mb-2 flex justify-between text-sm">
+              <span className="text-text-secondary">Moody&apos;s</span>
+              <span className="text-text-tertiary">4-8 weeks</span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-white/5">
+              <motion.div
+                className="h-full rounded-full bg-white/20"
+                initial={{ width: 0 }}
+                whileInView={{ width: "96%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 2.5, ease: "linear" }}
+              />
+            </div>
+          </div>
         {/* Legacy bar */}
-        <div>
-          <div className="mb-2 flex justify-between text-sm">
-            <span className="text-text-secondary">Legacy Agencies</span>
-            <span className="text-text-tertiary">4-8 weeks</span>
+          <div>
+            <div className="mb-2 flex justify-between text-sm">
+              <span className="text-text-secondary">S&P Global</span>
+              <span className="text-text-tertiary">2-6 weeks</span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-white/5">
+              <motion.div
+                className="h-full rounded-full bg-white/20"
+                initial={{ width: 0 }}
+                whileInView={{ width: "94%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 2.5, ease: "linear" }}
+              />
+            </div>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-white/5">
-            <motion.div
-              className="h-full rounded-full bg-white/20"
-              initial={{ width: 0 }}
-              whileInView={{ width: "100%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 2.5, ease: "linear" }}
-            />
-          </div>
-        </div>
 
-        {/* Pistos bar */}
-        <div>
-          <div className="mb-2 flex justify-between text-sm">
-            <span className="font-medium text-white">Pistos</span>
-            <span className="font-medium text-accent-green">Minutes</span>
+          {/* Pistos bar */}
+          <div>
+            <div className="mb-2 flex justify-between text-sm">
+              <span className="font-medium text-white">Pistos</span>
+              <span className="font-medium text-accent-green">5-10 Minutes</span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-white/5">
+              <motion.div
+                className="h-full rounded-full bg-accent-green"
+                initial={{ width: 0 }}
+                whileInView={{ width: "10%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
+                style={{
+                  boxShadow: "0 0 12px rgba(52, 211, 153, 0.4)",
+                }}
+              />
+            </div>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-white/5">
-            <motion.div
-              className="h-full rounded-full bg-accent-green"
-              initial={{ width: 0 }}
-              whileInView={{ width: "20%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
-              style={{
-                boxShadow: "0 0 12px rgba(52, 211, 153, 0.4)",
-              }}
-            />
-          </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* 3. Data Freshness comparison — left-aligned */}
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-        className="mt-8 space-y-6 rounded-xl border border-border bg-surface-elevated p-6 md:mt-10 md:w-[55%] md:mr-auto"
-      >
-        <h3 className="text-xs font-medium uppercase tracking-widest text-text-tertiary">
-          Data Freshness
-        </h3>
+      </div>
 
-        {/* Legacy — stale, quarterly */}
-        <div>
-          <div className="mb-2 flex justify-between text-sm">
-            <span className="text-text-secondary">Legacy Agencies</span>
-            <span className="text-text-tertiary">Quarterly updates</span>
-          </div>
-          <div className="h-2 overflow-hidden rounded-full bg-white/5">
-            <motion.div
-              className="h-full rounded-full bg-white/20"
-              initial={{ width: 0 }}
-              whileInView={{ width: "25%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-            />
-          </div>
-        </div>
+      {/* Row 2: Rating accuracy (wider) + Data Freshness (auto, centered) */}
+      <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+          className="md:flex-[3%]"
+        >
+          <RatingComparisonChart />
+        </motion.div>
 
-        {/* Pistos — always live */}
-        <div>
-          <div className="mb-2 flex items-center justify-between text-sm">
-            <span className="font-medium text-white">Pistos</span>
-            <span className="flex items-center gap-2 font-medium text-accent-green">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-green opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-green" />
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+          className="space-y-6 rounded-xl border border-border bg-surface-elevated p-6 md:flex-1"
+        >
+          <h3 className="text-xs font-medium uppercase tracking-widest text-text-tertiary">
+            Data Freshness
+          </h3>
+
+          {/* Kroll — stale, quarterly */}
+          <div>
+            <div className="mb-2 flex justify-between text-sm">
+              <span className="text-text-secondary">Kroll</span>
+              <span className="text-text-tertiary">Quarterly updates</span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-white/5">
+              <motion.div
+                className="h-full rounded-full bg-white/20"
+                initial={{ width: 0 }}
+
+                whileInView={{ width: "25%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+              />
+            </div>
+          </div>
+
+          {/* Fitch — stale, quarterly */}
+          <div>
+            <div className="mb-2 flex justify-between text-sm">
+              <span className="text-text-secondary">Fitch</span>
+              <span className="text-text-tertiary">No coverage</span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-white/5">
+              <motion.div
+                className="h-full rounded-full bg-white/20"
+                initial={{ width: 0 }}
+                whileInView={{ width: "5%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+              />
+            </div>
+          </div>
+
+
+          {/* Pistos — always live */}
+          <div>
+            <div className="mb-2 flex items-center justify-between text-sm">
+              <span className="font-medium text-white">Pistos</span>
+              <span className="flex items-center gap-2 font-medium text-accent-green">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-green opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-green" />
+                </span>
+                Real Time
               </span>
-              Always live
-            </span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-white/5">
+              <motion.div
+                className="h-full rounded-full bg-accent-green"
+                initial={{ width: 0 }}
+                whileInView={{ width: "98%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+                style={{
+                  boxShadow: "0 0 12px rgba(52, 211, 153, 0.4)",
+                }}
+              />
+            </div>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-white/5">
-            <motion.div
-              className="h-full rounded-full bg-accent-green"
-              initial={{ width: 0 }}
-              whileInView={{ width: "100%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-              style={{
-                boxShadow: "0 0 12px rgba(52, 211, 153, 0.4)",
-              }}
-            />
-          </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
 
-      {/* 4. Rating accuracy chart — right-aligned */}
+      {/* Integration badges — left-half below grid */}
       <motion.div
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-        className="mt-8 md:mt-10 md:w-[55%] md:ml-auto"
-      >
-        <RatingComparisonChart />
-      </motion.div>
-
-      {/* 5. Integration badges — left-aligned */}
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-        className="mt-8 space-y-4 md:mt-10 md:w-[55%] md:mr-auto"
+        className="mt-6 space-y-4 md:w-[45%]"
       >
         <h3 className="text-xs font-medium uppercase tracking-widest text-text-tertiary">
           Works with your stack

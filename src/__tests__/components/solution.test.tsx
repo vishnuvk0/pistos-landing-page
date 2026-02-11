@@ -38,14 +38,14 @@ describe("Solution", () => {
     render(<Solution />);
     expect(screen.getByText("Lead Time")).toBeInTheDocument();
     expect(screen.getByText("4-8 weeks")).toBeInTheDocument();
-    expect(screen.getByText("Minutes")).toBeInTheDocument();
+    expect(screen.getByText("5-10 Minutes")).toBeInTheDocument();
   });
 
   it("shows data freshness comparison", () => {
     render(<Solution />);
     expect(screen.getByText("Data Freshness")).toBeInTheDocument();
     expect(screen.getByText("Quarterly updates")).toBeInTheDocument();
-    expect(screen.getByText("Always live")).toBeInTheDocument();
+    expect(screen.getByText("Real Time")).toBeInTheDocument();
   });
 
   it("renders integration badges", () => {
@@ -54,5 +54,15 @@ describe("Solution", () => {
     for (const tool of ["Excel", "Python", "Bloomberg", "SAP", "SQL"]) {
       expect(screen.getByText(tool)).toBeInTheDocument();
     }
+  });
+
+  it("renders two flex rows for the card layout", () => {
+    const { container } = render(<Solution />);
+    const rows = container.querySelectorAll("#solution .flex.flex-col.md\\:flex-row");
+    expect(rows.length).toBe(2);
+    // Row 1: Process Steps + Lead Time
+    expect(rows[0].querySelectorAll(":scope > div").length).toBe(2);
+    // Row 2: Rating Accuracy + Data Freshness
+    expect(rows[1].querySelectorAll(":scope > div").length).toBe(2);
   });
 });

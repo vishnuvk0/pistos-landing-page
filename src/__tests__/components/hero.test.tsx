@@ -9,6 +9,12 @@ describe("Hero", () => {
     expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
   });
 
+  it("displays the brand title as h1", () => {
+    render(<Hero />);
+    const heading = screen.getByRole("heading", { level: 1 });
+    expect(heading).toHaveTextContent(COMPANY.name);
+  });
+
   it("displays the company tagline", () => {
     render(<Hero />);
     expect(screen.getByText(COMPANY.tagline)).toBeInTheDocument();

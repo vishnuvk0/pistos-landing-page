@@ -9,14 +9,15 @@
   --text: #ffffff;
   --text-secondary: #888888;
   --text-tertiary: #555555;
+  --text-header: rgb(156, 163, 175);
   --accent-green: #34d399;
   --accent-green-dim: rgba(52, 211, 153, 0.6);
   --white-10: rgba(255, 255, 255, 0.1);
   --white-20: rgba(255, 255, 255, 0.2);
   --white-05: rgba(255, 255, 255, 0.05);
 
-  --font-body: "Helvetica Now Text", "Helvetica Neue", "Helvetica", "Arial", system-ui, sans-serif;
-  --font-heading: "Helvetica Now Text", "Helvetica Neue", "Helvetica", "Arial", system-ui, sans-serif;
+  --font-body: "Helvetica Now Text", -apple-system, "system-ui", "Segoe UI", sans-serif;
+  --font-heading: "Helvetica Now Text", -apple-system, "system-ui", "Segoe UI", sans-serif;
 }
 
 @theme inline {
@@ -32,6 +33,7 @@
   --color-white-10: var(--white-10);
   --color-white-20: var(--white-20);
   --color-white-05: var(--white-05);
+  --color-text-header: var(--text-header);
   --font-sans: var(--font-body);
   --font-heading: var(--font-heading);
 }

@@ -31,6 +31,11 @@ global.IntersectionObserver = class IntersectionObserver {
   }
 };
 
+// Polyfill getTotalLength for jsdom (SVG path elements lack this in jsdom)
+SVGElement.prototype.getTotalLength = function () {
+  return 100;
+};
+
 afterEach(() => {
   cleanup();
 });
