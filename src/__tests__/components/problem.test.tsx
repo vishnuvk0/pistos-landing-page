@@ -13,7 +13,7 @@ describe("Problem", () => {
   it("displays the section heading", () => {
     render(<Problem />);
     expect(
-      screen.getByRole("heading", { level: 2, name: /broken oligopoly/i })
+      screen.getByRole("heading", { level: 2, name: /disrupting an oligopoly/i })
     ).toBeInTheDocument();
   });
 
