@@ -1,7 +1,7 @@
 export const COMPANY = {
   name: "PistOS",
-  tagline: "Introducing a new standard for global risk",
-  description: "Get Your Fully Agentic Credit Rating Instantly.",
+  tagline: "Fully Agentic Credit Ratings for Your Business",
+  description: "The 100X Solution for Global Risk",
   contactEmail: "info@pistosai.com",
   social: {
     linkedin: "https://linkedin.com/company/pistos-ai",
