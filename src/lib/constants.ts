@@ -1,6 +1,6 @@
 export const COMPANY = {
   name: "PistOS",
-  tagline: "Agentic Credit Intelligence"
+  tagline: "Agentic Credit Intelligence",
   description: "For municipalities, startups, and private credit.",
   contactEmail: "info@pistosai.com",
   social: {
