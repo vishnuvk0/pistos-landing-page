@@ -52,7 +52,12 @@ export function Hero() {
             className="mt-10 flex flex-col gap-4 sm:flex-row"
           >
             <Button href="#solution">How it works</Button>
-            <Button href={`mailto:${COMPANY.contactEmail}`} variant="outline">
+            <Button
+              href="https://calendly.com/vishnuvk-1/15min"
+              variant="outline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Schedule a call
             </Button>
           </motion.div>

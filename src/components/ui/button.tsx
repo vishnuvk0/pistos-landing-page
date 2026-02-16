@@ -3,6 +3,8 @@ interface ButtonProps {
   variant?: "primary" | "outline";
   children: React.ReactNode;
   className?: string;
+  target?: React.HTMLAttributeAnchorTarget;
+  rel?: string;
 }
 
 const variants = {
@@ -17,9 +19,11 @@ export function Button({
   variant = "primary",
   children,
   className = "",
+  target,
+  rel,
 }: ButtonProps) {
   return (
-    <a href={href} className={`${variants[variant]} ${className}`}>
+    <a href={href} className={`${variants[variant]} ${className}`} target={target} rel={rel}>
       {children}
     </a>
   );
